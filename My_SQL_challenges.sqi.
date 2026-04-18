@@ -1,0 +1,32 @@
+ЗАДАЧА: добавить данные в таблицу. Выполнить анализ книжных запасов. 
+Для каждого жанра вывести общую выручку, самую дорогую книгу
+и автора-лидера, сохранив даже пустые жанры.
+
+insert into book (title,	author_id,	genre_id,	price,	amount)
+values ("Доктор Живаго", 4, 1, 645.00, 7),
+("Герой нашего времени", 5, 1, 545.00, 11),
+("Мцыри", 5, 2, 410.00, 8);
+select * from book;
+
+select name_genre
+, (select name_author
+from author a
+JOIN book b2 using(author_id)
+where b2.genre_id = g.genre_id
+order by price desc limit 1 ) as "Автор" 
+, (select title
+from  book b2 
+ where b2.genre_id = g.genre_id
+order by price desc limit 1 ) as "Книга"
+, (select max(price)
+from book b2
+where b2.genre_id = g.genre_id
+) as "макс_цена"
+, sum(b.price*b.amount) as "Выручка"
+       from genre g 
+       left join book b using(genre_id)
+       left join author a using(author_id)
+        group by g.genre_id, name_genre   
+        order by Выручка desc;
+
+
