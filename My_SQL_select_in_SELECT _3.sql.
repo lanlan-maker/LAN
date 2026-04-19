@@ -1,0 +1,28 @@
+select name_genre
+, (select ifnull(sum(b2.amount*b2.price),0)  from book b2 
+   where b2.genre_id=g.genre_id ) as "стоим.запасов"
+, (select if(ifnull(sum(b2.amount), 0)<35, "дефицит", "в наличии")
+   from book b2
+   where b2.genre_id=g.genre_id 
+   ) as "наличие"   
+, ifnull((select name_author     from author a
+   join book b2 using(author_id)
+   where b2.genre_id=g.genre_id
+   group by author_id
+   order by round(avg(price)) desc limit 1 ),0) as "Лидер по цене"
+, ifnull((select round(avg(price))  from author a
+   join book b2 using(author_id)
+   where b2.genre_id=g.genre_id
+   group by author_id
+   order by round(avg(price)) desc limit 1 ),0) as "сред.ц. по авт"
+, ifnull(round(
+    ((select sum(b2.amount*b2.price) from book b2
+        where b2.genre_id=g.genre_id)
+   / (select sum(b3.amount*b3.price) from book b3) )* 100   
+        ),0) as "% от дох"
+, (select sum(b3.amount*b3.price) from book b3
+   ) as "Общий доход"
+from genre g
+left join book b using(genre_id)
+left join author a using(author_id) 
+group by genre_id, name_genre;
