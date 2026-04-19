@@ -13,7 +13,7 @@ select name_genre
    from book b2
    where b2.genre_id=g.genre_id) as "кол-во наимен"
 , round(avg(amount)) as "сред кол-во наимен"
-   
+
 from genre g
 left join book b using(genre_id)
 left join author a using(author_id) 
