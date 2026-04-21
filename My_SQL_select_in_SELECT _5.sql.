@@ -1,0 +1,25 @@
+select s.title             'СКЛАД'
+, s.amount-ifnull((select o.amount from orrder o where (s.title=o.title)
+                   and (o.author is null or s.author=o.author)
+                   ),0) as 'ОСТАТОК' 
+, if((s.amount-ifnull((select o.amount from orrder o where (s.title=o.title)
+                   and (o.author is null or s.author=o.author)
+                   ),0)) <= 0, 'срочно купить', 
+     if((s.amount-ifnull((select o.amount from orrder o where (s.title=o.title)
+                   and (o.author is null or s.author=o.author)
+                   ),0)) <= 5, 'мало', 
+       if((select o.amount from orrder o where (s.title=o.title)
+                   and (o.author is null or s.author=o.author)
+                  ) is null, 'не трогать', 'ok')
+       ))                  'СТАТУС' 
+, if(
+    (s.amount-ifnull((select o.amount from orrder o where (s.title=o.title)
+                   and (o.author is null or s.author=o.author)
+                   ),0)) <0, 
+     abs(s.amount-ifnull((select o.amount from orrder o where s.title=o.title 
+                   and (o.author is null or s.author=o.author) ),0)* s.price)
+                   , 0)
+                              'ПОТЕРИ'
+from store s
+order by 2 desc
+;
