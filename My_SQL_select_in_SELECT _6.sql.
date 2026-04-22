@@ -22,6 +22,8 @@ distinct title 'заказ_название'
  from orrder o
 order by 3 desc
 ;
+ where o2.title=o.title and o2.author<=>o.author - условие используется т.к. есть два наименования "сборник стихов" от двух разных авторов
+
 
 ВАРИАНТ ЧУТЬ ПРОЩЕ:
 
