@@ -1,17 +1,24 @@
 ТОЛЬКО КОЛЛЕРИРОВАННЫЕ ЗАПРОСЫ:
 
-select  distinct title 'заказ_название', author 'заказ_автор'
+select  
+distinct title 'заказ_название'
+, author 'заказ_автор'
 , (select sum(amount) from orrder o2 
-  where o2.title=o.title and o2.author<=>o.author) as "кол-во"
-, if(   (select sum(amount) from orrder o2 
-  where o2.title=o.title and o2.author<=>o.author)>50, 'бестселлер',
-     if(    (select sum(amount) from orrder o2 
-  where o2.title=o.title and o2.author<=>o.author)>20, 'хит', 'новинка') ) as 'ранг'
+  where o2.title=o.title and o2.author<=>o.author) as 
+                          "кол-во"
+, if(  (select sum(amount) from orrder o2 
+  where o2.title=o.title and o2.author<=>o.author)>50, 
+                      'бестселлер', 
+        if(  (select sum(amount) from orrder o2 
+  where o2.title=o.title and o2.author<=>o.author)>20, 'хит', 'новинка' )  ) as 
+                        'ранг'
 , round((select avg(price) from orrder o2 
-  where o2.title=o.title and o2.author<=>o.author)) as 'сред_чек'
-, round(ifnull((((select sum(amount) from orrder o2 
-  where o2.title=o.title and o2.author<=>o.author)/ (select s.amount from store s 
-                where o.title=s.title and o.author<=>s.author))),0)*100) as '%_от_склада'
+  where o2.title=o.title and o2.author<=>o.author)) as
+                      'сред_чек'
+, round( ifnull(( ((select sum(amount) from orrder o2 
+  where o2.title=o.title and o2.author<=>o.author) / (select s.amount from store s 
+                where o.title=s.title and o.author<=>s.author)) ),0)*100) as 
+                    '%_от_склада'
  from orrder o
 order by 3 desc
 ;
