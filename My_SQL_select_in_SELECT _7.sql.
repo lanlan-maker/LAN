@@ -1,20 +1,20 @@
 select distinct title, author
 , ifnull(((select sum(amount) from orrder o2 where o.title=o2.title and o.author<=>o2.author
    and year(sell_date) = '2020')),0) as '20_кол'
-,  ifnull(((select sum(price) from orrder o2 where o.title=o2.title and o.author<=>o2.author
+,  ifnull(((select sum(price*amount) from orrder o2 where o.title=o2.title and o.author<=>o2.author
    and year(sell_date) = '2020' )),0) as '20_дох'
-
+   
+, (select sum(amount*price) from orrder o2 where
+   year(sell_date) = '2020' ) as '20_приб'
 
 ,  ifnull(((select sum(amount) from orrder o2 where o.title=o2.title and o.author<=>o2.author
    and year(sell_date) = '2019' )),0) as '19_кол'
-,  ifnull(((select sum(price) from orrder o2 where o.title=o2.title and o.author<=>o2.author
+,  ifnull(((select sum(price*amount) from orrder o2 where o.title=o2.title and o.author<=>o2.author
    and year(sell_date) = '2019' )),0) as '19_дох'    
 
 from orrder o
 where  ifnull(((select sum(amount) from orrder o2 where o.title=o2.title and o.author<=>o2.author
-   and year(sell_date) = '2020')),0)
->
-    ifnull(((select sum(amount) from orrder o2 where o.title=o2.title and o.author<=>o2.author
-            and year(sell_date) = '2019' )),0)
-order by author
-;
+       and year(sell_date) = '2020')),0)
+>     ifnull(((select sum(amount) from orrder o2 where o.title=o2.title and o.author<=>o2.author
+       and year(sell_date) = '2019' )),0)
+order by author;
