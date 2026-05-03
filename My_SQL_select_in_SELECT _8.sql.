@@ -1,0 +1,28 @@
+select name_client`Клиент`, buy_id `Заказ`,
+title `Книга`, bb.amount `Количество`, name_step `Этап`
+
+from city ci
+join client cl using(city_id)
+join buy bu using(client_id)
+join buy_book bb using(buy_id)
+join book b using(book_id)
+join buy_step bs using(buy_id)
+join step st using(step_id)
+where name_city like 'Москва' 
+and step_id = (select max(NOW) from
+                
+               (select step_id as NOW from 
+                     
+                    (select step_id from buy_step
+                      join buy bu using(buy_id)
+                      join client cl using(client_id)
+                      join city ci using(city_id)
+                      where name_city like 'Москва'
+                     and date_step_end is not null
+                      ) as temp
+                 ) AS temp2
+              )
+
+and date_step_end is not null
+
+order by Клиент;
