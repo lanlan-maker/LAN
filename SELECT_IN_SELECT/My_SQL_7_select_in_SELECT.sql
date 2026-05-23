@@ -1,3 +1,6 @@
+# Спавнительный анали объема продаж и выручки соавторских книг за 2019 - 2020 года.
+   Найти книги которые в 2020 году принесли больше прибыли , чем в 2019
+
 select distinct title, author
 , ifnull(((select sum(amount) from orrder o2 where o.title=o2.title and o.author<=>o2.author
    and year(sell_date) = '2020')),0) as 'кол20'
