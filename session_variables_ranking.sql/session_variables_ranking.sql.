@@ -1,0 +1,22 @@
+Пронумеровать строки экзаменов для каждого отдельного студента. 
+  Выдать результат в алфавитном порядке.
+
+set @curr_enr := 0;
+set @ex_num := 1;
+
+select name_enrollee, name_subject, Exam_num
+from
+(select enrollee_id, subject_id
+, if(@curr_enr = enrollee_id, @ex_num := @ex_num + 1
+     , @ex_num := 1) as Exam_num   
+, result
+, @curr_enr := enrollee_id as Id
+from enrollee_subject ensu 
+order by 1) as temp
+
+join enrollee enr using(enrollee_id)
+join subject sub using(subject_id)
+
+
+order by 1, 3
+;
