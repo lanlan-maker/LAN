@@ -1,3 +1,5 @@
+# Выбрать автора с наибольшим разнообразием наименований.
+
 select name_genre
 , sum(amount) as "всего книг"
 , ( select min(price) 
