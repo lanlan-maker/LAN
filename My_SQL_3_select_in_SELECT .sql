@@ -1,3 +1,5 @@
+# Ценовой анализ склада книг.
+
 select name_genre
 , (select ifnull(sum(b2.amount*b2.price),0)  from book b2 
    where b2.genre_id=g.genre_id ) as "стоим.запасов"
