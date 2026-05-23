@@ -1,3 +1,5 @@
+# Количественный анализ склада книг.
+
 select s.title             'СКЛАД'
 , s.amount-ifnull((select o.amount from orrder o where (s.title=o.title)
                    and (o.author is null or s.author=o.author)
@@ -19,7 +21,7 @@ select s.title             'СКЛАД'
      abs(s.amount-ifnull((select o.amount from orrder o where s.title=o.title 
                    and (o.author is null or s.author=o.author) ),0)* s.price)
                    , 0)
-                              'ПОТЕРИ'
+                          'ПОТЕРИ'
 from store s
 order by 2 desc
 ;
