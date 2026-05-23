@@ -55,5 +55,5 @@ WHERE salary > (SELECT AVG(salary) FROM employees);
 * **Курс:** Интерактивный тренажер по SQL (ДВФУ / Stepik)
 * **Статус:** Диплом с отличием (100% пройденного материала)
 
-[![SQL Certificate](./certificate.png)](https://stepik.org/cert/3252535 )
+[![SQL Certificate](./stepik-certificate.jpg)](https://stepik.org/cert/3252535 )
 *(Кликните на изображение, чтобы проверить подлинность сертификата)*
