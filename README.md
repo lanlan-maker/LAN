@@ -57,3 +57,5 @@ WHERE salary > (SELECT AVG(salary) FROM employees);
 
 [![SQL Certificate](./stepik-certificate.jpg)](https://stepik.org/cert/3252535 )
 *(Кликните на изображение, чтобы проверить подлинность сертификата)*
+Умею пользоваться ИИ
+https://stepik.org/course/238475.
