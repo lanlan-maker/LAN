@@ -1,0 +1,29 @@
+# Вычислить прогресс учеников в % от предоставленного кол_ва вопросов.
+# присвоить определенный сертификат.
+
+with 
+  get_count_correct (stud_id, count_correct)
+    as (select student_id, count(distinct step_id)
+        from step_student
+        where result = 'correct'
+        group by student_id)
+, get_amount_step (count_amount)
+    as (select count(distinct step_id)
+        from step_student)
+, get_stud_progress (Студент, Прогресс)
+    as (select student_name
+       , round( ( ifnull(count_correct,0)/count_amount )*100 )
+       from student st
+       cross join get_amount_step
+       left join get_count_correct on stud_id=st.student_id
+    
+       )
+select Студент, Прогресс,
+CASE
+        WHEN ПРогресс = 100 THEN "Сертификат с отличием"
+        WHEN Прогресс > 80 THEN "Сертификат"
+        ELSE ""
+    END AS Результат
+from get_stud_progress
+order by 2 desc, 1
+;
