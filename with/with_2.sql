@@ -33,8 +33,7 @@ where count_les = 3  )
 select student_name
 , concat(module_id,'.',lesson_position) as Урок
 , from_unixtime(max_sub) as Пос_отпр
-,  ifnull(ceil(
- (max_sub - before_max)/86400),'-') as Интервал
+,  ifnull(ceil( (max_sub - before_max)/86400),'-') as Интервал
  
 from get_three_les
  join student using(student_id)
