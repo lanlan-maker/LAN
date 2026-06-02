@@ -50,9 +50,9 @@ get_otnosit as
 select student_name as Студент
 , Шаг
 , row_number() over (partition by step_id order by submission_time) as Номер_попытки
-, result as Результат
-, sec_to_time(Длит) as Время_попытки
-, otnosit as Относительное_время
+, result                as Результат
+, sec_to_time(Длит)     as Время_попытки
+, otnosit               as Относительное_время
 from get_otnosit 
 join student using(student_id)
 ;
